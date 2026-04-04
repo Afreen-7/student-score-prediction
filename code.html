@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Regression Lab | Study Hours vs Score</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#005045",
+                        "surface-container-highest": "#e0e2e6",
+                        "outline-variant": "#e4bdba",
+                        "on-primary-fixed-variant": "#930014",
+                        "primary-fixed": "#ffdad7",
+                        "inverse-on-surface": "#eff1f5",
+                        "inverse-primary": "#ffb3ae",
+                        "secondary": "#a13d3a",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#e0e2e6",
+                        "on-primary-fixed": "#410004",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f7f9fd",
+                        "secondary-fixed-dim": "#ffb3ae",
+                        "tertiary-fixed": "#7ff7df",
+                        "primary": "#b81120",
+                        "on-primary-container": "#fffbff",
+                        "tertiary-fixed-dim": "#61dac3",
+                        "tertiary": "#00685a",
+                        "on-surface-variant": "#5b403e",
+                        "on-tertiary-fixed": "#00201b",
+                        "surface-container-high": "#e6e8ec",
+                        "surface-container-low": "#f2f4f8",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#2d3134",
+                        "on-secondary-fixed-variant": "#822625",
+                        "on-background": "#191c1f",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-container": "#f4fffa",
+                        "outline": "#906f6d",
+                        "secondary-container": "#ff847d",
+                        "on-error": "#ffffff",
+                        "surface": "#f7f9fd",
+                        "primary-fixed-dim": "#ffb3ae",
+                        "on-secondary-fixed": "#410004",
+                        "primary-container": "#dc3135",
+                        "surface-container": "#eceef2",
+                        "surface-bright": "#f7f9fd",
+                        "on-secondary-container": "#751c1d",
+                        "on-surface": "#191c1f",
+                        "on-secondary": "#ffffff",
+                        "surface-dim": "#d8dade",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#ffdad7",
+                        "surface-tint": "#bb1522",
+                        "tertiary-container": "#008472"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"]
+                    }
+                },
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .label-text { font-family: 'Space Grotesk', sans-serif; }
+    </style>
+<style>
+    @keyframes shimmer {
+        100% { transform: translateX(100%); }
+    }
+    input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+</style></head>
+<body class="bg-background text-on-background antialiased">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-slate-50 dark:bg-slate-900 flex justify-between items-center px-8 h-16 w-full max-w-full">
+<div class="flex items-center gap-2">
+<span class="text-xl font-bold text-red-700 dark:text-red-500">Regression Lab</span>
+</div>
+<div class="hidden md:flex gap-8">
+<a class="text-red-700 dark:text-red-400 border-b-2 border-red-700 dark:border-red-400 font-semibold cursor-pointer active:opacity-70 transition-all" href="#">Analysis</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-red-600 dark:hover:text-red-300 transition-colors cursor-pointer active:opacity-70 transition-all" href="#">Models</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-red-600 dark:hover:text-red-300 transition-colors cursor-pointer active:opacity-70 transition-all" href="#">Documentation</a>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-600 cursor-pointer">settings</span>
+<span class="material-symbols-outlined text-slate-600 cursor-pointer">account_circle</span>
+</div>
+</nav>
+<!-- Side Navigation Bar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-100 dark:bg-slate-800/50 flex flex-col h-full border-none pt-20 pb-8 z-40">
+<div class="px-6 mb-8">
+<div class="font-mono text-xs uppercase tracking-wider text-slate-500 mb-1">Project Config</div>
+<div class="text-[10px] text-slate-400 uppercase tracking-widest">v1.0.4 - Regression</div>
+</div>
+<nav class="flex-1">
+<div class="bg-white dark:bg-slate-700 text-red-700 dark:text-red-400 font-bold border-r-4 border-red-600 flex items-center gap-3 px-6 py-4 cursor-pointer">
+<span class="material-symbols-outlined">table_rows</span>
+<span class="font-mono text-xs uppercase tracking-wider">Data Preview</span>
+</div>
+<div class="text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700/50 flex items-center gap-3 px-6 py-4 cursor-pointer transition-all">
+<span class="material-symbols-outlined">settings_input_component</span>
+<span class="font-mono text-xs uppercase tracking-wider">Model Config</span>
+</div>
+<div class="text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700/50 flex items-center gap-3 px-6 py-4 cursor-pointer transition-all">
+<span class="material-symbols-outlined">insights</span>
+<span class="font-mono text-xs uppercase tracking-wider">Visualizer</span>
+</div>
+<div class="text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700/50 flex items-center gap-3 px-6 py-4 cursor-pointer transition-all">
+<span class="material-symbols-outlined">calculate</span>
+<span class="font-mono text-xs uppercase tracking-wider">Predictor</span>
+</div>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full py-3 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-xl font-semibold text-sm shadow-sm hover:opacity-90 transition-all">
+                Train Model
+            </button>
+<div class="mt-6 flex flex-col gap-2">
+<div class="flex items-center gap-3 text-slate-500 cursor-pointer hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">help_outline</span>
+<span class="font-mono text-[10px] uppercase">Help</span>
+</div>
+<div class="flex items-center gap-3 text-slate-500 cursor-pointer hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">terminal</span>
+<span class="font-mono text-[10px] uppercase">Logs</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 pt-24 px-8 pb-12">
+<!-- Header -->
+<header class="mb-10">
+<h1 class="text-4xl font-bold text-on-surface tracking-tight mb-2">Regression Lab: Study Hours vs. Scores</h1>
+<p class="text-on-surface-variant max-w-2xl body-md">Analyze the relationship between academic time investment and performance outcomes using a linear regression model. Precision-engineered for academic data insights.</p>
+</header>
+<div class="grid grid-cols-12 gap-8">
+<!-- Visualization Section -->
+<section class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-xl p-8 shadow-[0_8px_32px_rgba(25,28,31,0.04)]">
+<div class="flex justify-between items-center mb-8">
+<h2 class="headline-sm font-semibold text-on-surface">Regression Visualizer</h2>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-container-high rounded-full label-md text-on-surface">R² = 0.953</span>
+<span class="px-3 py-1 bg-surface-container-high rounded-full label-md text-on-surface">MSE = 28.85</span>
+</div>
+</div>
+<div class="relative w-full aspect-[16/9] bg-surface rounded-lg overflow-hidden flex items-center justify-center group">
+<!-- Symbolic Representation of Scatter Plot -->
+<div class="absolute inset-0 p-8 flex flex-col justify-between">
+<!-- Y Axis labels -->
+<div class="flex flex-col h-full justify-between items-end pr-4 label-md text-slate-400 text-[10px]">
+<span>100</span><span>80</span><span>60</span><span>40</span><span>20</span><span>0</span>
+</div>
+<!-- X Axis labels -->
+<div class="flex w-full justify-between pl-8 pt-4 label-md text-slate-400 text-[10px]">
+<span>0</span><span>2</span><span>4</span><span>6</span><span>8</span><span>10</span>
+</div>
+</div>
+<!-- Plot Canvas Representation -->
+<div class="relative w-full h-full p-12 overflow-hidden">
+<!-- Regression Line -->
+<div class="absolute bottom-12 left-12 w-[120%] h-[2px] bg-primary origin-bottom-left -rotate-[42deg] z-10 shadow-[0_0_12px_rgba(184,17,32,0.3)]"></div>
+<!-- Data Points -->
+<div class="absolute bottom-[20%] left-[15%] w-2 h-2 rounded-full bg-tertiary opacity-80"></div>
+<div class="absolute bottom-[35%] left-[25%] w-2 h-2 rounded-full bg-tertiary opacity-80"></div>
+<div class="absolute bottom-[32%] left-[30%] w-2 h-2 rounded-full bg-tertiary opacity-80"></div>
+<div class="absolute bottom-[55%] left-[45%] w-2 h-2 rounded-full bg-tertiary opacity-80"></div>
+<div class="absolute bottom-[58%] left-[50%] w-2 h-2 rounded-full bg-tertiary opacity-80"></div>
+<div class="absolute bottom-[48%] left-[55%] w-2 h-2 rounded-full bg-tertiary opacity-80"></div>
+<div class="absolute bottom-[75%] left-[75%] w-2 h-2 rounded-full bg-tertiary opacity-80"></div>
+<div class="absolute bottom-[88%] left-[85%] w-2 h-2 rounded-full bg-tertiary opacity-80"></div>
+<div class="absolute bottom-[82%] left-[90%] w-2 h-2 rounded-full bg-tertiary opacity-80"></div>
+</div>
+<!-- Decorative Overlay -->
+<div class="absolute top-4 right-4 flex flex-col gap-2 pointer-events-none">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-tertiary"></div>
+<span class="label-md text-[10px] text-on-surface-variant">ACTUAL DATA</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-[2px] bg-primary"></div>
+<span class="label-md text-[10px] text-on-surface-variant">REGRESSION LINE</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Predict Your Score Section -->
+<section class="col-span-12 lg:col-span-4 flex flex-col gap-8">
+<div class="bg-surface-container-lowest rounded-xl p-8 shadow-[0_8px_32px_rgba(25,28,31,0.04)] h-full">
+<div class="flex justify-between items-center mb-6">
+<h2 class="title-md font-semibold text-on-surface">Predict Your Score</h2>
+<div class="flex items-center gap-1.5 px-2 py-0.5 bg-tertiary/10 text-tertiary rounded-full">
+<span class="material-symbols-outlined text-[12px] animate-spin">sync</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Live API</span>
+</div>
+</div>
+<div class="space-y-6">
+<div class="relative group">
+<label class="label-md text-on-surface-variant mb-2 flex justify-between items-center uppercase tracking-wider">
+<span>Hours Studied</span>
+<span class="text-[10px] text-primary lowercase italic opacity-0 group-focus-within:opacity-100 transition-opacity">Calculating...</span>
+</label>
+<div class="relative">
+<input class="w-full bg-surface-container border-2 border-transparent focus:border-primary/20 rounded-lg p-4 text-xl font-bold focus:ring-4 focus:ring-primary/10 transition-all outline-none appearance-none" id="prediction-input" step="0.25" type="number" value="9.25"/>
+<div class="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col">
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-primary leading-none text-lg">keyboard_arrow_up</span>
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-primary leading-none text-lg">keyboard_arrow_down</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-6 border-l-4 border-primary relative overflow-hidden">
+<!-- Subtle pulse effect for 'calculating' state -->
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_2s_infinite]"></div>
+<label class="label-md text-on-surface-variant mb-1 block uppercase tracking-wider">Estimated Score</label>
+<div class="flex items-baseline gap-2">
+<div class="display-lg text-primary font-bold transition-all" id="estimated-score">92.91</div>
+<span class="material-symbols-outlined text-primary text-sm animate-pulse">analytics</span>
+</div>
+<div class="label-md text-tertiary mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+                Confidence Level: <span class="font-bold" id="confidence-level">95.3%</span>
+</div>
+</div>
+<button class="w-full py-4 bg-primary text-on-primary rounded-xl font-bold tracking-tight shadow-lg shadow-primary/20 hover:bg-primary-container active:scale-[0.98] transition-all flex justify-center items-center gap-2 group">
+<span class="material-symbols-outlined text-lg group-active:animate-spin">refresh</span>
+            CALCULATE PREDICTION
+        </button>
+<p class="text-[10px] text-center text-on-surface-variant italic">Updates automatically on value change</p>
+</div>
+</div>
+</section>
+<!-- Data Preview Section -->
+<section class="col-span-12 bg-surface-container-lowest rounded-xl p-8 shadow-[0_8px_32px_rgba(25,28,31,0.04)]">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h2 class="title-md font-semibold text-on-surface">Data Preview</h2>
+<p class="label-md text-on-surface-variant">Top Model Accuracy Comparisons</p>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-high rounded-full label-md text-on-surface-variant hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-sm">download</span>
+                        Export CSV
+                    </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant">
+<th class="label-md p-4 text-left font-bold uppercase tracking-widest">Entry ID</th>
+<th class="label-md p-4 text-left font-bold uppercase tracking-widest">Hours Studied</th>
+<th class="label-md p-4 text-left font-bold uppercase tracking-widest">Actual Score</th>
+<th class="label-md p-4 text-left font-bold uppercase tracking-widest">Predicted Score</th>
+<th class="label-md p-4 text-left font-bold uppercase tracking-widest">Variance</th>
+</tr>
+</thead>
+<tbody class="body-md">
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="p-4 font-mono text-xs text-on-surface-variant">#TX-001</td>
+<td class="p-4 font-semibold">2.50</td>
+<td class="p-4">21</td>
+<td class="p-4 text-primary font-medium">26.92</td>
+<td class="p-4 text-error">-5.92</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="p-4 font-mono text-xs text-on-surface-variant">#TX-002</td>
+<td class="p-4 font-semibold">5.10</td>
+<td class="p-4">47</td>
+<td class="p-4 text-primary font-medium">52.34</td>
+<td class="p-4 text-error">-5.34</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="p-4 font-mono text-xs text-on-surface-variant">#TX-003</td>
+<td class="p-4 font-semibold">3.20</td>
+<td class="p-4">27</td>
+<td class="p-4 text-primary font-medium">33.77</td>
+<td class="p-4 text-error">-6.77</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="p-4 font-mono text-xs text-on-surface-variant">#TX-004</td>
+<td class="p-4 font-semibold">8.50</td>
+<td class="p-4">75</td>
+<td class="p-4 text-primary font-medium">85.58</td>
+<td class="p-4 text-error">-10.58</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="p-4 font-mono text-xs text-on-surface-variant">#TX-005</td>
+<td class="p-4 font-semibold">3.50</td>
+<td class="p-4">30</td>
+<td class="p-4 text-primary font-medium">36.70</td>
+<td class="p-4 text-error">-6.70</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+<!-- System Status Footer (Dashboard style) -->
+<footer class="mt-12 flex justify-between items-center py-6 border-t border-surface-container-highest">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="label-md text-[10px] text-on-surface-variant uppercase">Model Engine Active</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-xs text-on-surface-variant">update</span>
+<span class="label-md text-[10px] text-on-surface-variant uppercase">Last Sync: 2m ago</span>
+</div>
+</div>
+<div class="label-md text-[10px] text-slate-400 uppercase tracking-widest">
+                Precision Editorial Framework © 2024
+            </div>
+</footer>
+</main>
+<script>
+    const input = document.getElementById('prediction-input');
+    const scoreDisplay = document.getElementById('estimated-score');
+    const confidenceDisplay = document.getElementById('confidence-level');
+    const calcButton = document.querySelector('button.bg-primary.text-on-primary.rounded-xl.font-bold');
+    const calculatingStatus = document.querySelector('.group-focus-within\\:opacity-100');
+
+    function updatePrediction() {
+        const hours = parseFloat(input.value) || 0;
+        
+        // Show calculating state
+        if (calculatingStatus) {
+            calculatingStatus.style.opacity = '1';
+            setTimeout(() => {
+                calculatingStatus.style.opacity = '0';
+            }, 500);
+        }
+
+        // Mock Linear Regression: Score = Hours * 9.5 + 5 (clamped between 0-100)
+        let score = (hours * 9.5) + 5;
+        score = Math.min(100, Math.max(0, score)).toFixed(2);
+
+        // Mock Confidence: Varies slightly around 95%
+        const confidence = (94 + Math.random() * 2).toFixed(1);
+
+        // Update UI
+        scoreDisplay.textContent = score;
+        confidenceDisplay.textContent = confidence + '%';
+    }
+
+    // Listen for input changes
+    input.addEventListener('input', updatePrediction);
+
+    // Listen for button click
+    calcButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        updatePrediction();
+        
+        // Visual feedback on button
+        const icon = calcButton.querySelector('.material-symbols-outlined');
+        icon.classList.add('animate-spin');
+        setTimeout(() => icon.classList.remove('animate-spin'), 600);
+    });
+
+    // Add keyboard support for arrows
+    const upArrow = document.querySelector('.material-symbols-outlined[content="keyboard_arrow_up"]') || document.querySelectorAll('.absolute.right-4.top-1\\/2 span')[0];
+    const downArrow = document.querySelector('.material-symbols-outlined[content="keyboard_arrow_down"]') || document.querySelectorAll('.absolute.right-4.top-1\\/2 span')[1];
+
+    if (upArrow) {
+        upArrow.addEventListener('click', () => {
+            input.value = (parseFloat(input.value) + 0.25).toFixed(2);
+            updatePrediction();
+        });
+    }
+    if (downArrow) {
+        downArrow.addEventListener('click', () => {
+            input.value = Math.max(0, (parseFloat(input.value) - 0.25)).toFixed(2);
+            updatePrediction();
+        });
+    }
+</script></body></html>
